@@ -63,7 +63,11 @@ if __name__ == "__main__":
     while condition == True:
         print("")
         print("<=========================Address Book Management System=========================>")
-        choice = int(input("1. Enter 1 to add new Contact \n2. Enter 2 to edit Contact \n3. Exit \n"))
+        choice = int(input("1. Enter 1 to add new Contact \n"
+                           "2. Enter 2 to view all contacts \n"
+                           "3. Enter 3 to edit Contact \n"
+                           "4. Enter 4 to Delete Contact \n"
+                           "5. Exit \n"))
 
         if(choice == 1):
             first_name = input("Enter the First Name : ")
@@ -77,7 +81,11 @@ if __name__ == "__main__":
             contact = Contact(first_name, last_name, address, city, state, zip, phone, email)
             contacts_list.append(contact.returned_list)
             print(contacts_list[len(contacts_list)-1])
-        elif(choice == 2):
+
+        elif (choice == 2):
+            print(contacts_list)
+
+        elif(choice == 3):
             first_name_check = input("Enter the First Name to Edit Contact: ")
             for contact_data in contacts_list:
                 if(first_name_check in contact_data):
@@ -95,5 +103,13 @@ if __name__ == "__main__":
                     print(contacts_list[index])
                 else:
                     print("Contact not Found")
+        elif (choice == 4):
+            first_name_check = input("Enter the First Name to Edit Contact: ")
+            for contact_data in contacts_list:
+                if (first_name_check in contact_data):
+                    contacts_list.remove(contact_data)
+                    print("Contact deleted Successfully")
+                else:
+                    print("Contact not found")
         else:
             condition = False
