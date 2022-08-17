@@ -1,115 +1,161 @@
-class Contact():
-    def __init__(self, first_name, last_name, address, city, state, zip, phone, email):
-        self.__first_name = first_name
-        self.__last_name = last_name
-        self.__address = address
-        self.__city = city
-        self.__state = state
-        self.__zip = zip
-        self.__phone = phone
-        self.__email = email
-        self.returned_list = self.addContact()
+import sys
 
-    def setFirst_name(self,first_name):
-        self.__first_name = first_name
-    def getFirst_name(self):
-        return self.__first_name
-    def setLast_name(self,last_name):
-        self.__last_name = last_name
-    def getLast_name(self):
-        return self.__last_name
-    def setAddress(self,address):
-        self.__address = address
-    def getAddress(self):
-        return self.__address
-    def setCity(self,city):
-        self.__city = city
-    def getCity(self):
-        return self.__city
-    def setState(self,state):
-        self.__stazip
-    def getState(self):
-        return self.__state
-    def setZip(self,zip):
-        self.__zip = zip
-    def getZip(self):
-        return self.__zip
-    def setPhone(self,phone):
-        self.__phone = phone
-    def getPhone(self):
-        return self.__phone
-    def setEmail(self,email):
-        self.__email = email
-    def getEmail(self):
-        return self.__email
-    def addContact(self):
-        contact_list = [self.getFirst_name(), self.getLast_name(), self.getAddress(),
-                        self.getCity(), self.getState(), self.getZip(), self.getPhone(), self.getEmail()]
-        return contact_list
-    # def editContact(self, first_name, last_name, address, city, state, zip, phone, email):
-    #     self.setFirst_name(first_name)
-    #     self.setLast_name(last_name)
-    #     self.setAddress(address)
-    #     self.setCity(city)
-    #     self.setState(state)
-    #     self.setZip(zip)
-    #     self.setPhone(phone)
-    #     self.setEmail(email)
+class Contact:
+    def __init__(self, first_name, last_name, address, city, state, pin_code, email_id, mobile_number):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.address = address
+        self.city = city
+        self.state = state
+        self.pin_code = pin_code
+        self.email_id = email_id
+        self.mobile_number = mobile_number
+        self.details = [self.first_name, self.last_name, self.address, self.city, self.state, self.pin_code,
+                        self.email_id, self.mobile_number]
+
+
+def add(name):
+    local = []
+    temp = addressbook.get(name)
+    f_name = input("Enter first name: ")
+    l_name = input("Enter last name: ")
+    temp1 = []
+    if temp:
+        for i in addressbook.get(name):
+            temp1.append(i)
+        # print(temp1)
+        for i in temp:
+            if f_name == i[0] or l_name == i[1]:
+                print("user name already exist")
+            else:
+                address = input("Enter the address: ")
+                city = input("Enter the city: ")
+                state = input("Enter the state: ")
+                pincode = input("Enter the pin code: ")
+                email = input("Enter email id: ")
+                mobile_number = input("Enter mobile number: ")
+                result = Contact(f_name, l_name, address, city, state, pincode, email, mobile_number)
+                temp1.append(result.details)
+                print(temp1)
+                addressbook[name] = temp1
+                print("Contact added successfully")
+    else:
+        address = input("Enter the address: ")
+        city = input("Enter the city: ")
+        state = input("Enter the state: ")
+        pincode = input("Enter the pin code: ")
+        email = input("Enter email id: ")
+        mobile_number = input("Enter mobile number: ")
+        result = Contact(f_name, l_name, address, city, state, pincode, email, mobile_number)
+        local.append(result.details)
+        addressbook[name] = local
+        print("Contact added successfully")
+
+
+def edit(name):
+    f_name = input("Enter first name: ")
+    l_name = input("Enter last name: ")
+    contact_list = addressbook.get(name)
+    for i in contact_list:
+        if f_name == i[0] and l_name == i[1]:
+            print("Contact found, please enter details to update")
+            f_name = input("Enter first name: ")
+            l_name = input("Enter last name: ")
+            address = input("Enter the address: ")
+            city = input("Enter the city: ")
+            state = input("Enter the state: ")
+            pincode = input("Enter the pin code: ")
+            email = input("Enter email id: ")
+            mobile_number = input("Enter mobile number: ")
+            index = contact_list.index(i)
+            contact_list[index] = [f_name, l_name, address, city, state, pincode, email, mobile_number]
+            addressbook[name] = contact_list
+
+
+def book_entry(name):
+    print(name)
+    while True:
+        print("")
+        user_input = int(
+            input("Enter your choice\n1:Add the contact\n2:Edit the contact\n3:Delete the contact\n4:Display"
+                  "\n5:Return to main menu\n"))
+        if user_input == 1:
+            add(name)
+        elif user_input == 2:
+            edit(name)
+            print("Contact edited successfully")
+        elif user_input == 3:
+            f_name = input("Enter first name: ")
+            l_name = input("Enter last name: ")
+            temp = addressbook.get(name)
+            for i in temp:
+                if f_name == i[0] and l_name == i[1]:
+                    temp.remove(i)
+            print("Contact deleted successfully")
+        elif user_input == 4:
+            print(addressbook.get(name))
+        elif user_input == 5:
+            main_menu()
+
+
+def search_by_city(list, name):
+    temp = []
+    for i in list:
+        if i[3] == name:
+            temp.append(i)
+    print(temp)
+    print(f"number of person in {name} is: ", len(temp))
+
+
+def search_by_state(list, name):
+    temp = []
+    for i in list:
+        if i[4] == name:
+            temp.append(i)
+    print(temp)
+    print(f"number of person in {name} is: ", len(temp))
+
+
+def main_menu():
+    while True:
+        print("")
+        menu = int(input("Enter your choice\n1:Create book\n2:Access the existing address book\n"
+                         "3:Display all books\n4:search person by city\n5:Search person by state\n6:Exit\n"))
+        if menu == 1:
+            book_name = input("Enter name of the book: ")
+            if addressbook:
+                for i in addressbook:
+                    if i == book_name:
+                        print("Name already exist please enter another name")
+                        main_menu()
+                    else:
+                        book_entry(book_name)
+            else:
+                book_entry(book_name)
+        elif menu == 2:
+            name = input("Enter name of the book you are searching for: ")
+            book_entry(name)
+        elif menu == 3:
+            print(addressbook)
+        elif menu == 4:
+            city_name = input("Enter name of the city: ")
+            temp = []
+            for j in addressbook.keys():
+                for i in addressbook.get(j):
+                    temp.append(i)
+            search_by_city(temp, city_name)
+        elif menu == 5:
+            state_name = input("Enter name of the state: ")
+            temp = []
+            for j in addressbook.keys():
+                for i in addressbook.get(j):
+                    temp.append(i)
+            search_by_state(temp, state_name)
+        elif menu == 6:
+            sys.exit()
 
 
 if __name__ == "__main__":
-    condition = True
-    contacts_list = []
-    while condition == True:
-        print("")
-        print("<=========================Address Book Management System=========================>")
-        choice = int(input("1. Enter 1 to add new Contact \n"
-                           "2. Enter 2 to view all contacts \n"
-                           "3. Enter 3 to edit Contact \n"
-                           "4. Enter 4 to Delete Contact \n"
-                           "5. Exit \n"))
-
-        if(choice == 1):
-            first_name = input("Enter the First Name : ")
-            last_name = input("Enter the Last Name : ")
-            address = input("Enter the Address : ")
-            city = input("Enter the City : ")
-            state = input("Enter the State : ")
-            zip = input("Enter the Zip Code : ")
-            phone = input("Enter the Phone Number : ")
-            email = input("Enter the Email Id : ")
-            contact = Contact(first_name, last_name, address, city, state, zip, phone, email)
-            contacts_list.append(contact.returned_list)
-            print(contacts_list[len(contacts_list)-1])
-
-        elif (choice == 2):
-            print(contacts_list)
-
-        elif(choice == 3):
-            first_name_check = input("Enter the First Name to Edit Contact: ")
-            for contact_data in contacts_list:
-                if(first_name_check in contact_data):
-                    print("Contact Found : Enter the details to update")
-                    first_name = input("Enter the First Name : ")
-                    last_name = input("Enter the Last Name : ")
-                    address = input("Enter the Address : ")
-                    city = input("Enter the City : ")
-                    state = input("Enter the State : ")
-                    zip = input("Enter the Zip Code : ")
-                    phone = input("Enter the Phone Number : ")
-                    email = input("Enter the Email Id : ")
-                    index = contacts_list.index(contact_data)
-                    contacts_list[index] = [first_name, last_name, address, city, state, zip, phone, email]
-                    print(contacts_list[index])
-                else:
-                    print("Contact not Found")
-        elif (choice == 4):
-            first_name_check = input("Enter the First Name to Edit Contact: ")
-            for contact_data in contacts_list:
-                if (first_name_check in contact_data):
-                    contacts_list.remove(contact_data)
-                    print("Contact deleted Successfully")
-                else:
-                    print("Contact not found")
-        else:
-            condition = False
+    print("Welcome to address book")
+    addressbook = {}
+    main_menu()
